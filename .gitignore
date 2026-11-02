@@ -1,0 +1,29 @@
+# ── Variables de entorno (NUNCA se suben) ──
+.env
+.env.*
+!.env.example
+ 
+# ── Node / React (web/) ──
+node_modules/
+dist/
+build/
+.vite/
+*.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+ 
+# ── Supabase (archivos locales de la CLI) ──
+supabase/.temp/
+supabase/.branches/
+ 
+# ── Editores ──
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.swp
+ 
+# ── Sistema operativo ──
+.DS_Store
+Thumbs.db
