@@ -181,7 +181,8 @@ legend {
 }
 
 input,
-select {
+select,
+textarea {
   width: 100%;
   padding: 0.7rem 0.85rem;
   border: 1.5px solid var(--line);
@@ -315,6 +316,141 @@ input[aria-invalid='true'] {
 .confirmation {
   max-width: 520px;
   margin: 1.5rem auto 0;
+}
+
+.confirmation .actions {
+  margin-top: 1rem;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.nav {
+  display: flex;
+  gap: 0.25rem;
+  padding: 0.25rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid var(--line);
+}
+
+.nav a {
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: 0.92rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.nav a.active {
+  background: var(--sage-dark);
+  color: #fff;
+}
+
+.button-inline {
+  display: inline-block;
+  margin-top: 0.75rem;
+  text-decoration: none;
+}
+
+.button-ghost {
+  background: transparent;
+  color: var(--sage-dark);
+  border: 1.5px solid var(--sage);
+}
+
+.button-ghost:hover:not(:disabled) {
+  background: var(--sage-soft);
+}
+
+.button-danger {
+  background: var(--danger);
+}
+
+.button-danger:hover:not(:disabled) {
+  background: #8f3b33;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.small {
+  font-size: 0.88rem;
+}
+
+.appointment h3 {
+  margin: 0;
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 1.05rem;
+}
+
+.appointment h3::first-letter {
+  text-transform: uppercase;
+}
+
+.appointment p {
+  margin: 0.15rem 0;
+}
+
+.appointment-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.appointment-time {
+  font-size: 1.5rem;
+  font-family: 'Fraunces', Georgia, serif;
+  color: var(--sage-dark);
+}
+
+.appointment-doctor {
+  font-weight: 600;
+}
+
+.appointment .button,
+.appointment .cancel-form {
+  margin-top: 0.9rem;
+}
+
+.cancel-form {
+  padding-top: 0.25rem;
+  border-top: 1px solid var(--line);
+}
+
+.badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.badge-programada {
+  background: var(--blue-soft);
+  color: #2f5f78;
+}
+
+.badge-atendida {
+  background: var(--sage-soft);
+  color: var(--sage-dark);
+}
+
+.badge-cancelada {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+.badge-inasistencia {
+  background: #f2ecdc;
+  color: #7a6420;
 }
 
 @media (max-width: 480px) {

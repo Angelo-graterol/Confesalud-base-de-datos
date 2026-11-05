@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Navigate } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 import { usePatient } from '../context/PatientContext'
 import {
   GENERAL_MEDICINE_ID,
@@ -198,9 +198,12 @@ export default function Schedule() {
         <p className="muted">
           Llega con 15 minutos de tolerancia máxima: pasado ese tiempo la cita se marca como incumplida.
         </p>
-        <button type="button" className="button" onClick={scheduleAnother}>
-          Agendar otra cita
-        </button>
+        <div className="actions">
+          <Link to="/mis-citas" className="button">Ver mis citas</Link>
+          <button type="button" className="button button-ghost" onClick={scheduleAnother}>
+            Agendar otra cita
+          </button>
+        </div>
       </section>
     )
   }

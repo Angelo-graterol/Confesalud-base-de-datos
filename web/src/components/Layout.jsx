@@ -1,4 +1,4 @@
-import { Link, Outlet, useNavigate } from 'react-router-dom'
+import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { usePatient } from '../context/PatientContext'
 import { fullName } from '../services/clients'
 
@@ -18,6 +18,12 @@ export default function Layout() {
           <span className="brand-mark" aria-hidden="true">+</span>
           Consfesalud
         </Link>
+        {patient && (
+          <nav className="nav" aria-label="Principal">
+            <NavLink to="/agendar">Agendar</NavLink>
+            <NavLink to="/mis-citas">Mis citas</NavLink>
+          </nav>
+        )}
         {patient && (
           <div className="patient-chip">
             <span>{fullName(patient)}</span>

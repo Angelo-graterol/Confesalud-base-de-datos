@@ -29,6 +29,62 @@ export async function clientHasActiveAppointmentOn(clientId, date) {
   return count > 0
 }
 
+// Citas del paciente, de la más reciente a la más antigua, con médico, orden y cancelación.
+export async function getClientAppointments(clientId) {
+  const { data, error } = await supabase
+    .from('appointments')
+    .select(
+      '*, doctors(first_name, second_name, last_name, second_last_name), medical_orders(order_number), cancellations(reason, cancelled_by, cancellation_date)',
+    )
+    .eq('cet_id', clientId)
+    .order('assignment_date', { ascending: false })
+  if (error) throw error
+  return data
+}
+
+// Regla 12: toda cancelación registra motivo y quién la hizo.
+// Regla 11: al pasar la cita a CANCELADA el hueco queda libre (el índice único la ignora).
+// Son dos escrituras (cancelación + estado de la cita). Se inserta primero la cancelación;
+// si el cambio de estado falla, se intenta deshacerla para no dejar datos a medias.
+export async function cancelAppointment({ appointmentId, reason, cancelledBy = 'PACIENTE' }) {
+  const { data: cancellation, error: insertError } = await supabase
+    .from('cancellations')
+    .insert({
+      cancellation_date: nowBogota(),
+      reason: reason.trim(),
+      cancelled_by: cancelledBy,
+      apt_id: appointmentId,
+      stf_id: WEB_STAFF_ID,
+    })
+    .select()
+    .single()
+
+  if (insertError) throw friendlyWriteError(insertError)
+
+  const { data: updated, error: updateError } = await supabase
+    .from('appointments')
+    .update({ appointment_status: 'CANCELADA' })
+    .eq('id', appointmentId)
+    .eq('appointment_status', 'PROGRAMADA')
+    .select()
+
+  if (updateError || updated.length === 0) {
+    await supabase.from('cancellations').delete().eq('id', cancellation.id)
+    if (updateError) throw friendlyWriteError(updateError)
+    throw new Error('No se pudo cancelar la cita: ya no está programada o no hay permiso para modificarla. Avísale a Juan José.')
+  }
+}
+
+function friendlyWriteError(error) {
+  if (error.code === '42501' || /row-level security/i.test(error.message)) {
+    return new Error('La base de datos no permite esta operación con esta clave (falta una política de acceso). Avísale a Juan José.')
+  }
+  if (error.code === '23505') {
+    return new Error('Esta cita ya tiene una cancelación registrada.')
+  }
+  return error
+}
+
 // Crea la cita. request_date se manda explícito, en hora de Bogotá: si se dejara el
 // default now() del servidor (UTC), la regla assignment_date >= request_date podría fallar.
 export async function createAppointment({ clientId, doctorId, date, time, orderId }) {
