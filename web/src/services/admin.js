@@ -78,6 +78,43 @@ export async function searchAppointments({ from, to, doctorId, specialtyId, stat
   return { rows: data, total: count }
 }
 
+// Fechas de solicitud y asignación de las citas (para calcular tiempos de oportunidad).
+// Supabase entrega máximo 1000 filas por consulta, por eso se pide por páginas.
+export async function getWaitTimes({ from, to, status }) {
+  const pageSize = 1000
+  const rows = []
+  for (let offset = 0; ; offset += pageSize) {
+    let query = supabase
+      .from('appointments')
+      .select('id, request_date, assignment_date, appointment_status, dtr_id')
+      .order('id')
+      .range(offset, offset + pageSize - 1)
+    if (from) query = query.gte('request_date', `${from}T00:00:00`)
+    if (to) query = query.lte('request_date', `${to}T23:59:59`)
+    if (status) query = query.eq('appointment_status', status)
+    const { data, error } = await query
+    if (error) throw error
+    rows.push(...data)
+    if (data.length < pageSize) break
+  }
+  return rows
+}
+
+// Últimos cambios registrados por el trigger en appointments_audit.
+export async function getAuditLog({ aptId, operation }) {
+  let query = supabase
+    .from('appointments_audit')
+    .select('id, apt_id, operation, old_data, new_data, changed_at, changed_by', { count: 'exact' })
+    .order('changed_at', { ascending: false })
+    .order('id', { ascending: false })
+    .limit(50)
+  if (aptId) query = query.eq('apt_id', Number(aptId))
+  if (operation) query = query.eq('operation', operation)
+  const { data, count, error } = await query
+  if (error) throw error
+  return { rows: data, total: count }
+}
+
 // Pacientes por documento o nombre. Se quitan caracteres que rompen el filtro de PostgREST.
 export async function searchClients(text) {
   const term = text.replace(/[,()%*\\]/g, ' ').trim()

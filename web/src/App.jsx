@@ -9,6 +9,7 @@ import AdminGate from './pages/admin/AdminGate'
 import AdminAppointments from './pages/admin/AdminAppointments'
 import AdminPatients from './pages/admin/AdminPatients'
 import AdminDoctors from './pages/admin/AdminDoctors'
+import AdminAudit from './pages/admin/AdminAudit'
 
 export default function App() {
   return (
@@ -25,6 +26,7 @@ export default function App() {
                 <Route path="citas" element={<AdminAppointments />} />
                 <Route path="pacientes" element={<AdminPatients />} />
                 <Route path="medicos" element={<AdminDoctors />} />
+                <Route path="auditoria" element={<AdminAudit />} />
               </Route>
             </Route>
           </Routes>

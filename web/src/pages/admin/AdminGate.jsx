@@ -17,6 +17,7 @@ export default function AdminGate() {
           <NavLink to="/admin/citas">Citas</NavLink>
           <NavLink to="/admin/pacientes">Pacientes</NavLink>
           <NavLink to="/admin/medicos">Médicos</NavLink>
+          <NavLink to="/admin/auditoria">Auditoría</NavLink>
         </nav>
         <div className="patient-chip">
           <span>{fullName(staff)} · {ROLE_LABELS[staff.staff_role]}</span>
