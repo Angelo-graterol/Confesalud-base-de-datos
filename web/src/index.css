@@ -1,18 +1,18 @@
 :root {
-  --bg: #f3f6f2;
+  --bg: #f3f8fc;
   --surface: #ffffff;
-  --text: #25332c;
-  --muted: #64746b;
-  --sage: #6e9b84;
-  --sage-dark: #3f6b57;
-  --sage-soft: #e3eee7;
-  --blue-soft: #e4eef3;
-  --line: #d8e2dc;
+  --text: #1a2a3a;
+  --muted: #5a6b7c;
+  --primary: #3f8ed0;
+  --primary-dark: #14548f;
+  --primary-soft: #e2eefa;
+  --blue-soft: #e4f3f7;
+  --line: #d3e1ee;
   --danger: #a8483f;
   --danger-soft: #f7e6e3;
   --radius: 20px;
-  --shadow: 0 6px 24px rgba(63, 107, 87, 0.08);
-  font-family: 'DM Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --shadow: 0 6px 24px rgba(20, 84, 143, 0.10);
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
   color: var(--text);
   line-height: 1.5;
 }
@@ -26,7 +26,7 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(180deg, var(--blue-soft) 0%, var(--bg) 260px);
+  background: linear-gradient(180deg, #d9eaf8 0%, var(--bg) 280px);
 }
 
 #root {
@@ -37,8 +37,8 @@ body {
 
 h1,
 h2 {
-  font-family: 'Fraunces', Georgia, serif;
-  font-weight: 600;
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  font-weight: 700;
   line-height: 1.2;
   margin: 0 0 0.5rem;
 }
@@ -52,7 +52,7 @@ h2 {
 }
 
 :focus-visible {
-  outline: 3px solid var(--sage-dark);
+  outline: 3px solid var(--primary-dark);
   outline-offset: 2px;
 }
 
@@ -72,10 +72,10 @@ h2 {
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
-  font-family: 'Fraunces', Georgia, serif;
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
   font-size: 1.25rem;
   font-weight: 600;
-  color: var(--sage-dark);
+  color: var(--primary-dark);
   text-decoration: none;
 }
 
@@ -85,7 +85,7 @@ h2 {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: var(--sage);
+  background: var(--primary);
   color: #fff;
   font-size: 1.3rem;
   line-height: 1;
@@ -106,7 +106,7 @@ h2 {
   background: none;
   border: none;
   padding: 0;
-  color: var(--sage-dark);
+  color: var(--primary-dark);
   font: inherit;
   text-decoration: underline;
   cursor: pointer;
@@ -150,7 +150,7 @@ h2 {
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--sage);
+  color: var(--primary);
 }
 
 .lead,
@@ -187,7 +187,7 @@ textarea {
   padding: 0.7rem 0.85rem;
   border: 1.5px solid var(--line);
   border-radius: 12px;
-  background: #fbfdfb;
+  background: #f8fbfe;
   font: inherit;
   color: inherit;
 }
@@ -210,7 +210,7 @@ input[aria-invalid='true'] {
   padding: 0.8rem 1.4rem;
   border: none;
   border-radius: 999px;
-  background: var(--sage-dark);
+  background: var(--primary-dark);
   color: #fff;
   font: inherit;
   font-weight: 600;
@@ -219,7 +219,7 @@ input[aria-invalid='true'] {
 }
 
 .button:hover:not(:disabled) {
-  background: #335a49;
+  background: #0f4372;
 }
 
 .button:disabled {
@@ -257,14 +257,14 @@ input[aria-invalid='true'] {
 }
 
 .slot:hover {
-  border-color: var(--sage);
-  background: var(--sage-soft);
+  border-color: var(--primary);
+  background: var(--primary-soft);
 }
 
 .slot-selected,
 .slot-selected:hover {
-  background: var(--sage-dark);
-  border-color: var(--sage-dark);
+  background: var(--primary-dark);
+  border-color: var(--primary-dark);
   color: #fff;
 }
 
@@ -345,7 +345,7 @@ textarea {
 }
 
 .nav a.active {
-  background: var(--sage-dark);
+  background: var(--primary-dark);
   color: #fff;
 }
 
@@ -357,12 +357,12 @@ textarea {
 
 .button-ghost {
   background: transparent;
-  color: var(--sage-dark);
-  border: 1.5px solid var(--sage);
+  color: var(--primary-dark);
+  border: 1.5px solid var(--primary);
 }
 
 .button-ghost:hover:not(:disabled) {
-  background: var(--sage-soft);
+  background: var(--primary-soft);
 }
 
 .button-danger {
@@ -385,7 +385,7 @@ textarea {
 
 .appointment h3 {
   margin: 0;
-  font-family: 'DM Sans', system-ui, sans-serif;
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
   font-size: 1.05rem;
 }
 
@@ -407,8 +407,8 @@ textarea {
 
 .appointment-time {
   font-size: 1.5rem;
-  font-family: 'Fraunces', Georgia, serif;
-  color: var(--sage-dark);
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  color: var(--primary-dark);
 }
 
 .appointment-doctor {
@@ -446,7 +446,7 @@ textarea {
 
 .staff-link a,
 .hint a {
-  color: var(--sage-dark);
+  color: var(--primary-dark);
 }
 
 .person summary {
@@ -497,9 +497,9 @@ textarea {
 
 .stats dd {
   margin: 0.15rem 0 0;
-  font-family: 'Fraunces', Georgia, serif;
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
   font-size: 1.5rem;
-  color: var(--sage-dark);
+  color: var(--primary-dark);
 }
 
 .bars,
@@ -523,7 +523,7 @@ textarea {
 .bar-track {
   height: 12px;
   border-radius: 999px;
-  background: var(--sage-soft);
+  background: var(--primary-soft);
   overflow: hidden;
 }
 
@@ -531,7 +531,7 @@ textarea {
   display: block;
   height: 100%;
   border-radius: 999px;
-  background: var(--sage);
+  background: var(--primary);
 }
 
 .bar-value {
@@ -587,13 +587,13 @@ textarea {
 }
 
 .badge-programada {
-  background: var(--blue-soft);
-  color: #2f5f78;
+  background: var(--primary-soft);
+  color: var(--primary-dark);
 }
 
 .badge-atendida {
-  background: var(--sage-soft);
-  color: var(--sage-dark);
+  background: #dff3e8;
+  color: #1f6b47;
 }
 
 .badge-cancelada {
