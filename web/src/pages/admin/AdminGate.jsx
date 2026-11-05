@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { NavLink, Outlet } from 'react-router-dom'
 import { ArrowRight, BadgeCheck, CircleAlert, Info, ShieldCheck } from 'lucide-react'
+import { WavesArt } from '../../components/Illustrations'
 import { useStaff } from '../../context/StaffContext'
 import { ROLE_LABELS } from '../../lib/labels'
 import { fullName } from '../../services/clients'
@@ -55,7 +56,9 @@ function StaffPicker({ onPick }) {
   }
 
   return (
-    <section className="hero card">
+    <section className="scene scene-waves">
+      <WavesArt className="scene-waves-art" />
+      <div className="scene-content">
       <span className="hero-icon" aria-hidden="true">
         <ShieldCheck size={28} />
       </span>
@@ -91,6 +94,7 @@ function StaffPicker({ onPick }) {
           <ArrowRight size={18} aria-hidden="true" />
         </button>
       </form>
+      </div>
     </section>
   )
 }

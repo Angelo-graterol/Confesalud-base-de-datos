@@ -240,6 +240,76 @@ h2 {
   flex-wrap: wrap;
 }
 
+/* ---------- Escenas con ilustración (inicio y entrada al panel) ---------- */
+
+/* Panel ancho sin tarjeta interior: el contenido va directo sobre el fondo ilustrado */
+.scene {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  min-height: 520px;
+  margin-top: 0.5rem;
+  padding: clamp(2rem, 6vw, 3.5rem) clamp(1.25rem, 5vw, 3rem);
+  border-radius: 28px;
+  background: linear-gradient(135deg, #ffffff 0%, #f5f3f0 55%, #ebe7e2 100%);
+  box-shadow: var(--shadow);
+  display: grid;
+  place-items: center;
+}
+
+.scene-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 520px;
+  text-align: center;
+}
+
+.scene-content .form {
+  text-align: left;
+}
+
+.scene-stethoscope {
+  position: absolute;
+  z-index: -1;
+  right: -70px;
+  bottom: -40px;
+  width: 360px;
+  height: auto;
+}
+
+.scene-leaves {
+  position: absolute;
+  z-index: -1;
+  left: -30px;
+  top: -20px;
+  width: 220px;
+  height: auto;
+  opacity: 0.9;
+}
+
+.scene-waves {
+  background: linear-gradient(180deg, #ffffff 0%, #f7f5f2 100%);
+}
+
+.scene-waves-art {
+  position: absolute;
+  z-index: -1;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 46%;
+}
+
+/* En pantallas medianas la ilustración se aclara para no tapar el formulario */
+@media (max-width: 900px) {
+  .scene-stethoscope {
+    opacity: 0.35;
+    right: -110px;
+  }
+}
+
 /* ---------- Inicio ---------- */
 
 .hero {
@@ -925,6 +995,21 @@ textarea[aria-invalid='true'] {
 @media (max-width: 480px) {
   .brand-logo {
     height: 52px;
+  }
+
+  .scene {
+    min-height: 0;
+  }
+
+  .scene-stethoscope {
+    width: 240px;
+    right: -90px;
+    bottom: -50px;
+    opacity: 0.25;
+  }
+
+  .scene-leaves {
+    width: 150px;
   }
 
   .doc-row {

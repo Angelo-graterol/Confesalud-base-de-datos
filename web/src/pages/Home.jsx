@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { ArrowRight, CircleAlert, Stethoscope } from 'lucide-react'
+import { ArrowRight, CircleAlert } from 'lucide-react'
+import { LeavesArt, StethoscopeArt } from '../components/Illustrations'
 import { usePatient } from '../context/PatientContext'
 import { DOCUMENT_TYPES, checkEligibility, findClientByDocument } from '../services/clients'
 
@@ -41,10 +42,10 @@ export default function Home() {
   }
 
   return (
-    <section className="hero card">
-      <span className="hero-icon" aria-hidden="true">
-        <Stethoscope size={28} />
-      </span>
+    <section className="scene">
+      <LeavesArt className="scene-leaves" />
+      <StethoscopeArt className="scene-stethoscope" />
+      <div className="scene-content">
       <p className="eyebrow">Gestión de citas</p>
       <h1>Agenda tu cita médica con calma</h1>
       <p className="lead">
@@ -97,6 +98,7 @@ export default function Home() {
       <p className="hint staff-link">
         ¿Eres personal de la IPS? <Link to="/admin">Entrar al panel administrativo</Link>
       </p>
+      </div>
     </section>
   )
 }
