@@ -1,10 +1,12 @@
-import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
+import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { usePatient } from '../context/PatientContext'
 import { fullName } from '../services/clients'
 
 export default function Layout() {
-  const { patient, setPatient } = usePatient()
+  const { patient: identifiedPatient, setPatient } = usePatient()
   const navigate = useNavigate()
+  // En el panel administrativo no se muestra el paciente identificado.
+  const patient = useLocation().pathname.startsWith('/admin') ? null : identifiedPatient
 
   function leave() {
     setPatient(null)

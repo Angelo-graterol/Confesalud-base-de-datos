@@ -425,6 +425,58 @@ textarea {
   border-top: 1px solid var(--line);
 }
 
+.admin-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.filters-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 0.9rem;
+  margin-top: 1rem;
+}
+
+.staff-link {
+  margin-top: 1.25rem;
+}
+
+.staff-link a,
+.hint a {
+  color: var(--sage-dark);
+}
+
+.person summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.9rem;
+  cursor: pointer;
+}
+
+.person[open] summary {
+  margin-bottom: 0.75rem;
+}
+
+.person-name {
+  margin: 0;
+  font-weight: 600;
+}
+
+.person-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.person-row p {
+  margin: 0.15rem 0;
+}
+
 .badge {
   padding: 0.25rem 0.75rem;
   border-radius: 999px;

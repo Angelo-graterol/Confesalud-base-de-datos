@@ -46,7 +46,12 @@ export async function getClientAppointments(clientId) {
 // Regla 11: al pasar la cita a CANCELADA el hueco queda libre (el índice único la ignora).
 // Son dos escrituras (cancelación + estado de la cita). Se inserta primero la cancelación;
 // si el cambio de estado falla, se intenta deshacerla para no dejar datos a medias.
-export async function cancelAppointment({ appointmentId, reason, cancelledBy = 'PACIENTE' }) {
+export async function cancelAppointment({
+  appointmentId,
+  reason,
+  cancelledBy = 'PACIENTE',
+  staffId = WEB_STAFF_ID,
+}) {
   const { data: cancellation, error: insertError } = await supabase
     .from('cancellations')
     .insert({
@@ -54,7 +59,7 @@ export async function cancelAppointment({ appointmentId, reason, cancelledBy = '
       reason: reason.trim(),
       cancelled_by: cancelledBy,
       apt_id: appointmentId,
-      stf_id: WEB_STAFF_ID,
+      stf_id: staffId,
     })
     .select()
     .single()
@@ -73,6 +78,31 @@ export async function cancelAppointment({ appointmentId, reason, cancelledBy = '
     if (updateError) throw friendlyWriteError(updateError)
     throw new Error('No se pudo cancelar la cita: ya no está programada o no hay permiso para modificarla. Avísale a Juan José.')
   }
+}
+
+// Regla 14: solo personal autorizado reasigna una cita ya confirmada (ver REASSIGN_ROLES).
+// Cambia médico y/o hueco; deja constancia en la observación de la cita.
+export async function reassignAppointment({ appointment, doctorId, date, time, staff }) {
+  const note = `Reasignada por ${staff.first_name} ${staff.last_name} el ${nowBogota().slice(0, 16).replace('T', ' ')}`
+  const observation = [appointment.observation, note].filter(Boolean).join(' · ').slice(-300)
+
+  const { data, error } = await supabase
+    .from('appointments')
+    .update({ dtr_id: doctorId, assignment_date: `${date}T${time}:00`, observation })
+    .eq('id', appointment.id)
+    .eq('appointment_status', 'PROGRAMADA')
+    .select()
+
+  if (error) {
+    if (error.code === '23505') {
+      throw new Error('Ese horario acaba de ser tomado por otra persona. Elige otro.')
+    }
+    throw friendlyWriteError(error)
+  }
+  if (data.length === 0) {
+    throw new Error('No se pudo reasignar: la cita ya no está programada o no hay permiso para modificarla. Avísale a Juan José.')
+  }
+  return data[0]
 }
 
 function friendlyWriteError(error) {

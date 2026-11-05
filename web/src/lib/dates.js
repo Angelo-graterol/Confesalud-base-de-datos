@@ -39,6 +39,15 @@ export function buildDaySlots() {
   return slots
 }
 
+// Huecos libres de un día: quita los ocupados y, si la fecha es hoy, los que ya pasaron.
+export function freeSlotsFor(date, takenSlots) {
+  const nowTime = nowBogota().slice(11, 16)
+  const isToday = date === todayBogota()
+  return buildDaySlots().filter(
+    (time) => !takenSlots.includes(time) && (!isToday || time > nowTime),
+  )
+}
+
 export function formatDateLong(dateStr) {
   return new Date(`${dateStr}T12:00:00Z`).toLocaleDateString('es-CO', {
     weekday: 'long',

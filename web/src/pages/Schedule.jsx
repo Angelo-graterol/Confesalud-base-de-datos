@@ -8,10 +8,9 @@ import {
 } from '../config'
 import {
   addDays,
-  buildDaySlots,
   formatDateLong,
   formatTime,
-  nowBogota,
+  freeSlotsFor,
   todayBogota,
   weekday,
 } from '../lib/dates'
@@ -23,8 +22,6 @@ import {
   createAppointment,
   getTakenSlots,
 } from '../services/appointments'
-
-const ALL_SLOTS = buildDaySlots()
 
 export default function Schedule() {
   const { patient } = usePatient()
@@ -84,11 +81,8 @@ export default function Schedule() {
 
   const freeSlots = useMemo(() => {
     if (!doctorId || !date || dateProblem) return []
-    const nowTime = nowBogota().slice(11, 16)
-    return ALL_SLOTS.filter(
-      (time) => !takenSlots.includes(time) && (date > today || time > nowTime),
-    )
-  }, [doctorId, date, dateProblem, takenSlots, today])
+    return freeSlotsFor(date, takenSlots)
+  }, [doctorId, date, dateProblem, takenSlots])
 
   const selectedDoctor = doctors?.find((d) => String(d.id) === String(doctorId))
   const selectedSpecialty = specialties.find((s) => String(s.id) === String(specialtyId))

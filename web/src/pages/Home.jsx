@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { usePatient } from '../context/PatientContext'
 import { DOCUMENT_TYPES, checkEligibility, findClientByDocument } from '../services/clients'
 
@@ -86,6 +86,9 @@ export default function Home() {
           {loading ? 'Buscando…' : 'Continuar'}
         </button>
       </form>
+      <p className="hint staff-link">
+        ¿Eres personal de la IPS? <Link to="/admin">Entrar al panel administrativo</Link>
+      </p>
     </section>
   )
 }

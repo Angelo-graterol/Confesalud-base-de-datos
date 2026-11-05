@@ -4,21 +4,8 @@ import { usePatient } from '../context/PatientContext'
 import { formatDateLong, formatTime, nowBogota } from '../lib/dates'
 import { cancelAppointment, getClientAppointments } from '../services/appointments'
 import { fullName } from '../services/clients'
-
-const STATUS_LABELS = {
-  PROGRAMADA: 'Programada',
-  ATENDIDA: 'Atendida',
-  CANCELADA: 'Cancelada',
-  INASISTENCIA: 'Inasistencia',
-}
-
-const CANCELLED_BY_LABELS = {
-  PACIENTE: 'el paciente',
-  MEDICO: 'el médico',
-  ADMINISTRATIVO: 'el personal administrativo',
-}
-
-const MIN_REASON_LENGTH = 5
+import { CANCELLED_BY_LABELS, STATUS_LABELS } from '../lib/labels'
+import CancelForm from '../components/CancelForm'
 
 export default function MyAppointments() {
   const { patient } = usePatient()
@@ -132,59 +119,13 @@ function AppointmentCard({ appointment: a, canCancel, canceling, onStartCancel, 
         </button>
       )}
       {canCancel && canceling && (
-        <CancelForm appointmentId={a.id} onStop={onStopCancel} onDone={onCancelled} />
+        <CancelForm
+          appointmentId={a.id}
+          onSubmit={(reason) => cancelAppointment({ appointmentId: a.id, reason })}
+          onStop={onStopCancel}
+          onDone={onCancelled}
+        />
       )}
     </article>
-  )
-}
-
-function CancelForm({ appointmentId, onStop, onDone }) {
-  const [reason, setReason] = useState('')
-  const [error, setError] = useState('')
-  const [submitting, setSubmitting] = useState(false)
-
-  async function handleSubmit(event) {
-    event.preventDefault()
-    setError('')
-    if (reason.trim().length < MIN_REASON_LENGTH) {
-      setError(`Escribe el motivo de la cancelación (mínimo ${MIN_REASON_LENGTH} letras).`)
-      return
-    }
-    setSubmitting(true)
-    try {
-      await cancelAppointment({ appointmentId, reason })
-      onDone()
-    } catch (err) {
-      setError(err.message || 'No pudimos cancelar la cita. Intenta de nuevo.')
-      setSubmitting(false)
-    }
-  }
-
-  const fieldId = `reason-${appointmentId}`
-
-  return (
-    <form onSubmit={handleSubmit} className="form cancel-form" noValidate>
-      <div className="field">
-        <label htmlFor={fieldId}>Motivo de la cancelación</label>
-        <textarea
-          id={fieldId}
-          rows={3}
-          maxLength={200}
-          value={reason}
-          onChange={(e) => setReason(e.target.value)}
-          aria-invalid={Boolean(error)}
-        />
-        <p className="hint">Al cancelar, el horario queda libre para otros pacientes.</p>
-      </div>
-      {error && <p className="alert alert-error" role="alert">{error}</p>}
-      <div className="actions">
-        <button type="submit" className="button button-danger" disabled={submitting}>
-          {submitting ? 'Cancelando…' : 'Confirmar cancelación'}
-        </button>
-        <button type="button" className="button button-ghost" onClick={onStop} disabled={submitting}>
-          Mantener cita
-        </button>
-      </div>
-    </form>
   )
 }

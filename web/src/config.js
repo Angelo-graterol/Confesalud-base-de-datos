@@ -27,6 +27,10 @@ export const SPECIALIST_ORDER_TYPE_IDS = [1, 6]
 // se registran con este funcionario (RECEPCIONISTA activo).
 export const WEB_STAFF_ID = 1
 
+// Regla 14: roles de funcionario (staffs.staff_role) autorizados a reasignar una cita confirmada.
+// Cancelar puede hacerlo cualquier funcionario activo.
+export const REASSIGN_ROLES = ['COORDINADOR', 'ADMINISTRADOR']
+
 // EPS con convenio vigente (eps.id). null = cualquier EPS registrada en la tabla `eps`.
 // La EPS real del convenio (Comfaoriente) no está en los datos de prueba.
 export const CONVENIO_EPS_IDS = null
