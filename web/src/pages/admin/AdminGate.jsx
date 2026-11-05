@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { NavLink, Outlet } from 'react-router-dom'
+import { ArrowRight, BadgeCheck, CircleAlert, Info, ShieldCheck } from 'lucide-react'
 import { useStaff } from '../../context/StaffContext'
 import { ROLE_LABELS } from '../../lib/labels'
 import { fullName } from '../../services/clients'
@@ -20,6 +21,7 @@ export default function AdminGate() {
           <NavLink to="/admin/auditoria">Auditoría</NavLink>
         </nav>
         <div className="patient-chip">
+          <span className="chip-avatar" aria-hidden="true"><BadgeCheck size={16} /></span>
           <span>{fullName(staff)} · {ROLE_LABELS[staff.staff_role]}</span>
           <button type="button" className="link-button" onClick={() => setStaff(null)}>
             Salir
@@ -54,6 +56,9 @@ function StaffPicker({ onPick }) {
 
   return (
     <section className="hero card">
+      <span className="hero-icon" aria-hidden="true">
+        <ShieldCheck size={28} />
+      </span>
       <p className="eyebrow">Personal administrativo</p>
       <h1>Panel administrativo</h1>
       <p className="lead">
@@ -71,11 +76,20 @@ function StaffPicker({ onPick }) {
             ))}
           </select>
         </div>
-        <p className="hint">
+        <p className="note">
+          <Info size={18} aria-hidden="true" />
           Demostración académica: la base de datos no tiene inicio de sesión, por eso no se pide contraseña.
         </p>
-        {error && <p className="alert alert-error" role="alert">{error}</p>}
-        <button type="submit" className="button">Entrar al panel</button>
+        {error && (
+          <p className="alert alert-error" role="alert">
+            <CircleAlert size={18} aria-hidden="true" />
+            {error}
+          </p>
+        )}
+        <button type="submit" className="button button-block">
+          Entrar al panel
+          <ArrowRight size={18} aria-hidden="true" />
+        </button>
       </form>
     </section>
   )

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Search, Users } from 'lucide-react'
 import { searchClients } from '../../services/admin'
 import { fullName } from '../../services/clients'
 
@@ -33,16 +34,22 @@ export default function AdminPatients() {
   return (
     <div className="stack">
       <section className="card">
-        <h1>Pacientes</h1>
+        <div className="card-title">
+          <span className="title-icon" aria-hidden="true"><Users size={22} /></span>
+          <h1>Pacientes</h1>
+        </div>
         <div className="field">
           <label htmlFor="patient-search">Buscar por documento o nombre</label>
-          <input
-            id="patient-search"
-            type="search"
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            autoComplete="off"
-          />
+          <div className="search">
+            <Search size={18} aria-hidden="true" />
+            <input
+              id="patient-search"
+              type="search"
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              autoComplete="off"
+            />
+          </div>
         </div>
       </section>
 

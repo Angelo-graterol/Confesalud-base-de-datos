@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { CalendarDays } from 'lucide-react'
 import CancelForm from '../../components/CancelForm'
 import ReassignForm from '../../components/ReassignForm'
 import { REASSIGN_ROLES } from '../../config'
@@ -82,7 +83,10 @@ export default function AdminAppointments() {
   return (
     <div className="stack">
       <form className="card filters" onSubmit={(e) => e.preventDefault()}>
-        <h1>Citas</h1>
+        <div className="card-title">
+          <span className="title-icon" aria-hidden="true"><CalendarDays size={22} /></span>
+          <h1>Citas</h1>
+        </div>
         <div className="filters-grid">
           <div className="field">
             <label htmlFor="f-from">Desde</label>
@@ -166,11 +170,11 @@ export default function AdminAppointments() {
 
                 {editable && action?.id !== a.id && (
                   <div className="actions">
-                    <button type="button" className="button button-ghost" onClick={() => setAction({ id: a.id, type: 'cancel' })}>
+                    <button type="button" className="button button-danger-ghost" onClick={() => setAction({ id: a.id, type: 'cancel' })}>
                       Cancelar
                     </button>
                     {canReassign && (
-                      <button type="button" className="button button-ghost" onClick={() => setAction({ id: a.id, type: 'reassign' })}>
+                      <button type="button" className="button" onClick={() => setAction({ id: a.id, type: 'reassign' })}>
                         Reasignar
                       </button>
                     )}

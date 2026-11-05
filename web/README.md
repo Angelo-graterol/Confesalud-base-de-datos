@@ -1,6 +1,6 @@
-# Front-end de Consfesalud (gestión de citas)
+# Front-end de Confesalud IPS (gestión de citas)
 
-Interfaz web en React para operar el proceso de citas médicas de Consfesalud I.P.S. sobre la base de datos de Supabase. Proyecto de Bases de Datos, Ingeniería de Sistemas, Universidad de Ocaña.
+Interfaz web en React para operar el proceso de citas médicas de Confesalud IPS sobre la base de datos de Supabase. Proyecto de Bases de Datos, Ingeniería de Sistemas, Universidad de Ocaña.
 
 Este front-end **solo lee datos y escribe/cancela citas**. El esquema, los scripts SQL y los datos de prueba viven en `../supabase` y no se modifican desde aquí.
 
@@ -83,6 +83,7 @@ src/
 - **Duración.** Todas las citas ocupan un hueco de 20 minutos (la regla de 40 minutos para especializada no está en la base).
 - **Días de atención.** La base no restringe días; `OPEN_WEEKDAYS` en `config.js` los controla.
 - **Especialidad de una cita.** La cita no la guarda; los filtros por especialidad usan las de su médico.
+- **Identidad visual.** Colores y logo de Confesalud IPS tomados de [confesalud.com](https://confesalud.com/): naranja del logo (`#FF6600`) para acentos y uno más oscuro (`#C2410C`) en botones para cumplir el contraste de lectura. El logo está en `public/logo-confesalud.png` y pertenece a la empresa; se usa solo en este proyecto académico.
 
 ## Pendientes que dependen de la base de datos
 

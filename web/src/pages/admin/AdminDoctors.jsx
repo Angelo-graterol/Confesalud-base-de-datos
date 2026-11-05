@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Stethoscope } from 'lucide-react'
 import { getAllSpecialties, getDoctorsWithSpecialties } from '../../services/admin'
 import { fullName } from '../../services/clients'
 
@@ -29,7 +30,10 @@ export default function AdminDoctors() {
   return (
     <div className="stack">
       <section className="card">
-        <h1>Médicos</h1>
+        <div className="card-title">
+          <span className="title-icon" aria-hidden="true"><Stethoscope size={22} /></span>
+          <h1>Médicos</h1>
+        </div>
         <div className="filters-grid">
           <div className="field">
             <label htmlFor="d-specialty">Especialidad</label>
@@ -60,20 +64,22 @@ export default function AdminDoctors() {
           <p className="muted small" aria-live="polite">
             {shown.length === 0 ? 'No hay médicos con estos filtros.' : `${shown.length} médicos.`}
           </p>
-          {shown.map((d) => (
-            <article key={d.id} className="card person-row">
-              <div>
+          <div className="doctor-grid">
+            {shown.map((d) => (
+              <article key={d.id} className="card doctor-card">
+                <span className="avatar" aria-hidden="true">
+                  {d.first_name[0]}{d.last_name[0]}
+                </span>
                 <p className="person-name">{fullName(d)}</p>
-                <p className="muted small">
-                  {d.document_type} {d.document_number} · Registro médico {d.medical_registration}
-                </p>
                 <p className="small">
                   {d.specialties.length > 0 ? d.specialties.map((s) => s.name).join(' · ') : 'Sin especialidad'}
                 </p>
-              </div>
-              <span className={`badge badge-${STATUS_BADGES[d.doctor_status]}`}>{d.doctor_status}</span>
-            </article>
-          ))}
+                <p className="muted small">R.M. {d.medical_registration}</p>
+                <p className="muted small">{d.document_type} {d.document_number}</p>
+                <span className={`badge badge-${STATUS_BADGES[d.doctor_status]}`}>{d.doctor_status}</span>
+              </article>
+            ))}
+          </div>
         </>
       )}
     </div>

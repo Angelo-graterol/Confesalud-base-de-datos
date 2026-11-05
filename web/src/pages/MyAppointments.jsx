@@ -1,5 +1,12 @@
 import { useEffect, useState } from 'react'
 import { Link, Navigate } from 'react-router-dom'
+import {
+  CalendarCheck,
+  CalendarClock,
+  CalendarPlus,
+  CircleAlert,
+  History,
+} from 'lucide-react'
 import { usePatient } from '../context/PatientContext'
 import { formatDateLong, formatTime, nowBogota } from '../lib/dates'
 import { cancelAppointment, getClientAppointments } from '../services/appointments'
@@ -38,20 +45,35 @@ export default function MyAppointments() {
 
   return (
     <div className="stack">
-      <section className="card">
-        <p className="eyebrow">Paciente</p>
-        <h1>Mis citas</h1>
-        <p className="lead">{fullName(patient)}</p>
-        <Link to="/agendar" className="button button-inline">Agendar una cita</Link>
+      <section className="card header-row">
+        <div className="card-title">
+          <span className="title-icon" aria-hidden="true"><CalendarCheck size={22} /></span>
+          <div>
+            <h1>Mis citas</h1>
+            <p className="overline">{fullName(patient)}</p>
+          </div>
+        </div>
+        <Link to="/agendar" className="button">
+          <CalendarPlus size={18} aria-hidden="true" />
+          Agendar una cita
+        </Link>
       </section>
 
-      {loadError && <p className="alert alert-error" role="alert">{loadError}</p>}
+      {loadError && (
+        <p className="alert alert-error" role="alert">
+          <CircleAlert size={18} aria-hidden="true" />
+          {loadError}
+        </p>
+      )}
       {appointments === null && !loadError && <p className="muted">Cargando tus citas…</p>}
 
       {appointments && (
         <>
           <section aria-labelledby="upcoming-title" className="stack">
-            <h2 id="upcoming-title">Próximas</h2>
+            <h2 id="upcoming-title" className="section-title">
+              <CalendarClock size={22} aria-hidden="true" />
+              Próximas
+            </h2>
             {upcoming.length === 0 && (
               <p className="card muted">No tienes citas próximas programadas.</p>
             )}
@@ -72,7 +94,10 @@ export default function MyAppointments() {
           </section>
 
           <section aria-labelledby="history-title" className="stack">
-            <h2 id="history-title">Historial</h2>
+            <h2 id="history-title" className="section-title">
+              <History size={22} aria-hidden="true" />
+              Historial
+            </h2>
             {history.length === 0 && <p className="card muted">Aún no tienes historial de citas.</p>}
             {history.map((a) => (
               <AppointmentCard key={a.id} appointment={a} />
@@ -114,7 +139,7 @@ function AppointmentCard({ appointment: a, canCancel, canceling, onStartCancel, 
       )}
 
       {canCancel && !canceling && (
-        <button type="button" className="button button-ghost" onClick={onStartCancel}>
+        <button type="button" className="button button-danger-ghost" onClick={onStartCancel}>
           Cancelar cita
         </button>
       )}

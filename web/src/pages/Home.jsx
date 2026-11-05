@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { ArrowRight, CircleAlert, Stethoscope } from 'lucide-react'
 import { usePatient } from '../context/PatientContext'
 import { DOCUMENT_TYPES, checkEligibility, findClientByDocument } from '../services/clients'
 
@@ -41,6 +42,9 @@ export default function Home() {
 
   return (
     <section className="hero card">
+      <span className="hero-icon" aria-hidden="true">
+        <Stethoscope size={28} />
+      </span>
       <p className="eyebrow">Gestión de citas</p>
       <h1>Agenda tu cita médica con calma</h1>
       <p className="lead">
@@ -48,43 +52,47 @@ export default function Home() {
       </p>
 
       <form onSubmit={handleSubmit} className="form" noValidate>
-        <div className="field">
-          <label htmlFor="document-type">Tipo de documento</label>
-          <select
-            id="document-type"
-            value={documentType}
-            onChange={(e) => setDocumentType(e.target.value)}
-          >
-            {DOCUMENT_TYPES.map((type) => (
-              <option key={type.value} value={type.value}>
-                {type.value} · {type.label}
-              </option>
-            ))}
-          </select>
+        <div className="doc-row">
+          <div className="field">
+            <label htmlFor="document-type">Tipo de documento</label>
+            <select
+              id="document-type"
+              value={documentType}
+              onChange={(e) => setDocumentType(e.target.value)}
+            >
+              {DOCUMENT_TYPES.map((type) => (
+                <option key={type.value} value={type.value} title={type.label} aria-label={type.label}>
+                  {type.value}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="field">
+            <label htmlFor="document-number">Número de documento</label>
+            <input
+              id="document-number"
+              inputMode="numeric"
+              autoComplete="off"
+              value={documentNumber}
+              onChange={(e) => setDocumentNumber(e.target.value)}
+              aria-invalid={Boolean(error)}
+              aria-describedby={error ? 'home-error' : undefined}
+            />
+          </div>
         </div>
 
-        <div className="field">
-          <label htmlFor="document-number">Número de documento</label>
-          <input
-            id="document-number"
-            inputMode="numeric"
-            autoComplete="off"
-            value={documentNumber}
-            onChange={(e) => setDocumentNumber(e.target.value)}
-            aria-invalid={Boolean(error)}
-            aria-describedby={error ? 'home-error' : undefined}
-          />
-        </div>
+        <button type="submit" className="button button-block" disabled={loading}>
+          {loading ? 'Buscando…' : 'Continuar'}
+          {!loading && <ArrowRight size={18} aria-hidden="true" />}
+        </button>
 
         {error && (
           <p id="home-error" className="alert alert-error" role="alert">
+            <CircleAlert size={18} aria-hidden="true" />
             {error}
           </p>
         )}
-
-        <button type="submit" className="button" disabled={loading}>
-          {loading ? 'Buscando…' : 'Continuar'}
-        </button>
       </form>
       <p className="hint staff-link">
         ¿Eres personal de la IPS? <Link to="/admin">Entrar al panel administrativo</Link>

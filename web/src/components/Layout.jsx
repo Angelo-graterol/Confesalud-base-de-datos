@@ -1,4 +1,5 @@
 import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
+import { UserRound } from 'lucide-react'
 import { usePatient } from '../context/PatientContext'
 import { fullName } from '../services/clients'
 
@@ -16,9 +17,9 @@ export default function Layout() {
   return (
     <>
       <header className="topbar">
-        <Link to="/" className="brand" aria-label="Consfesalud, inicio">
-          <span className="brand-mark" aria-hidden="true">+</span>
-          Consfesalud
+        <Link to="/" className="brand">
+          {/* Logo oficial tomado de confesalud.com */}
+          <img src="/logo-confesalud.png" alt="Confesalud IPS, inicio" className="brand-logo" />
         </Link>
         {patient && (
           <nav className="nav" aria-label="Principal">
@@ -28,6 +29,9 @@ export default function Layout() {
         )}
         {patient && (
           <div className="patient-chip">
+            <span className="chip-avatar" aria-hidden="true">
+              <UserRound size={16} />
+            </span>
             <span>{fullName(patient)}</span>
             <button type="button" className="link-button" onClick={leave}>
               Cambiar paciente
@@ -38,7 +42,7 @@ export default function Layout() {
       <main className="page">
         <Outlet />
       </main>
-      <footer className="footer">Consfesalud I.P.S. · Ocaña · Proyecto académico, datos de prueba</footer>
+      <footer className="footer">Confesalud IPS · Ocaña · Proyecto académico, datos de prueba</footer>
     </>
   )
 }

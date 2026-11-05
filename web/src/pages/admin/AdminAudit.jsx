@@ -1,4 +1,12 @@
 import { useEffect, useMemo, useState } from 'react'
+import {
+  CalendarDays,
+  ChartColumn,
+  ClipboardList,
+  Clock,
+  Hourglass,
+  Scale,
+} from 'lucide-react'
 import { STATUS_LABELS } from '../../lib/labels'
 import { averageByDoctor, formatDays, summarize } from '../../lib/waitTimes'
 import { getAuditLog, getDoctorsWithSpecialties, getWaitTimes } from '../../services/admin'
@@ -67,7 +75,10 @@ function WaitTimes() {
 
   return (
     <section className="card" aria-labelledby="wait-title">
-      <h1 id="wait-title">Tiempos de oportunidad</h1>
+      <div className="card-title">
+        <span className="title-icon" aria-hidden="true"><ChartColumn size={22} /></span>
+        <h1 id="wait-title">Tiempos de oportunidad</h1>
+      </div>
       <p className="muted">
         Días que pasan entre que el paciente solicita la cita y la fecha en que se le asigna.
       </p>
@@ -99,10 +110,10 @@ function WaitTimes() {
       {summary && (
         <>
           <dl className="stats">
-            <div><dt>Citas</dt><dd>{summary.count}</dd></div>
-            <div><dt>Espera promedio</dt><dd>{formatDays(summary.average)} días</dd></div>
-            <div><dt>Mediana</dt><dd>{formatDays(summary.median)} días</dd></div>
-            <div><dt>Espera máxima</dt><dd>{formatDays(summary.max)} días</dd></div>
+            <div><dt><CalendarDays size={18} aria-hidden="true" />Citas</dt><dd>{summary.count}</dd></div>
+            <div><dt><Clock size={18} aria-hidden="true" />Espera promedio</dt><dd>{formatDays(summary.average)} días</dd></div>
+            <div><dt><Scale size={18} aria-hidden="true" />Mediana</dt><dd>{formatDays(summary.median)} días</dd></div>
+            <div><dt><Hourglass size={18} aria-hidden="true" />Espera máxima</dt><dd>{formatDays(summary.max)} días</dd></div>
           </dl>
 
           <h2>Distribución</h2>
@@ -165,7 +176,10 @@ function AuditLog() {
 
   return (
     <section className="card" aria-labelledby="audit-title">
-      <h2 id="audit-title">Registro de cambios en las citas</h2>
+      <div className="card-title">
+        <span className="title-icon" aria-hidden="true"><ClipboardList size={22} /></span>
+        <h2 id="audit-title">Registro de cambios en las citas</h2>
+      </div>
       <p className="muted">
         Cada vez que se crea, modifica o elimina una cita, la base de datos guarda el cambio.
       </p>

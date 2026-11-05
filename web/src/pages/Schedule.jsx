@@ -1,6 +1,18 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, Navigate } from 'react-router-dom'
+import {
+  ArrowRight,
+  CalendarDays,
+  Check,
+  CircleAlert,
+  Clock,
+  Hash,
+  Info,
+  Stethoscope,
+  UserRound,
+} from 'lucide-react'
 import { usePatient } from '../context/PatientContext'
+import Stepper from '../components/Stepper'
 import {
   GENERAL_MEDICINE_ID,
   MAX_DAYS_AHEAD,
@@ -177,19 +189,26 @@ export default function Schedule() {
     resetFrom(1)
   }
 
+  const steps = ['Especialidad', 'Médico', 'Fecha', 'Hora', needsOrder ? 'Orden médica' : 'Confirmar']
+  const currentStep = !specialtyId ? 0 : !doctorId ? 1 : !date || dateProblem ? 2 : !slot ? 3 : 4
+
   if (created) {
     return (
       <section className="card confirmation" aria-live="polite">
+        <span className="success-icon" aria-hidden="true">
+          <Check size={36} strokeWidth={3} />
+        </span>
         <p className="eyebrow">Cita programada</p>
         <h1>¡Listo, {patient.first_name}!</h1>
         <dl className="summary">
-          <div><dt>Especialidad</dt><dd>{selectedSpecialty?.specialty_name}</dd></div>
-          <div><dt>Médico</dt><dd>{selectedDoctor && fullName(selectedDoctor)}</dd></div>
-          <div><dt>Fecha</dt><dd>{formatDateLong(date)}</dd></div>
-          <div><dt>Hora</dt><dd>{formatTime(slot)}</dd></div>
-          <div><dt>Código de cita</dt><dd>#{created.id}</dd></div>
+          <div><dt><Stethoscope size={16} aria-hidden="true" />Especialidad</dt><dd>{selectedSpecialty?.specialty_name}</dd></div>
+          <div><dt><UserRound size={16} aria-hidden="true" />Médico</dt><dd>{selectedDoctor && fullName(selectedDoctor)}</dd></div>
+          <div><dt><CalendarDays size={16} aria-hidden="true" />Fecha</dt><dd>{formatDateLong(date)}</dd></div>
+          <div><dt><Clock size={16} aria-hidden="true" />Hora</dt><dd>{formatTime(slot)}</dd></div>
+          <div><dt><Hash size={16} aria-hidden="true" />Código de cita</dt><dd>#{created.id}</dd></div>
         </dl>
-        <p className="muted">
+        <p className="note">
+          <Info size={18} aria-hidden="true" />
           Llega con 15 minutos de tolerancia máxima: pasado ese tiempo la cita se marca como incumplida.
         </p>
         <div className="actions">
@@ -205,8 +224,13 @@ export default function Schedule() {
   return (
     <div className="stack">
       <section className="card patient-card">
-        <p className="eyebrow">Paciente</p>
-        <h1>{fullName(patient)}</h1>
+        <div className="card-title">
+          <span className="title-icon" aria-hidden="true"><UserRound size={22} /></span>
+          <div>
+            <p className="overline">Paciente</p>
+            <h1>{fullName(patient)}</h1>
+          </div>
+        </div>
         <dl className="summary summary-inline">
           <div><dt>Documento</dt><dd>{patient.document_type} {patient.document_number}</dd></div>
           <div><dt>EPS</dt><dd>{patient.eps?.eps_name}</dd></div>
@@ -217,7 +241,12 @@ export default function Schedule() {
       </section>
 
       <form onSubmit={handleSubmit} className="card form" noValidate>
-        <h2>Agendar cita</h2>
+        <div className="card-title">
+          <span className="title-icon" aria-hidden="true"><CalendarDays size={22} /></span>
+          <h2>Agendar cita</h2>
+        </div>
+
+        <Stepper steps={steps} current={currentStep} />
 
         <div className="field">
           <label htmlFor="specialty">1. Especialidad</label>
@@ -285,7 +314,8 @@ export default function Schedule() {
         {needsOrder && slot && (
           <fieldset className="field order-box">
             <legend>5. Orden médica</legend>
-            <p className="hint">
+            <p className="note">
+              <Info size={18} aria-hidden="true" />
               Las citas con especialista exigen una orden o remisión vigente, expedida hace menos de 2 meses.
             </p>
             <div className="field">
@@ -310,10 +340,16 @@ export default function Schedule() {
           </fieldset>
         )}
 
-        {error && <p className="alert alert-error" role="alert">{error}</p>}
+        {error && (
+          <p className="alert alert-error" role="alert">
+            <CircleAlert size={18} aria-hidden="true" />
+            {error}
+          </p>
+        )}
 
         <button type="submit" className="button" disabled={submitting || !slot}>
           {submitting ? 'Agendando…' : 'Confirmar cita'}
+          {!submitting && <ArrowRight size={18} aria-hidden="true" />}
         </button>
       </form>
     </div>
