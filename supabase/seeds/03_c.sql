@@ -16,7 +16,7 @@ INSERT INTO public.appointments
   (4, '2026-10-23 09:15', '2026-10-30 11:00', NULL,               'PRESENCIAL',
       'INASISTENCIA', 'Paciente no llegó',        1, 2, 2, NULL),
   (5, '2026-10-25 11:00', '2026-11-10 15:00', NULL,               'WEB',
-      'PROGRAMADA',   'Consulta de seguimiento',  2, 1, 3, 1);
+      'PROGRAMADA',   'Consulta de seguimiento',  2, 1, 3, NULL);
  
 SELECT setval(pg_get_serial_sequence('public.appointments', 'id'), 5);
  
