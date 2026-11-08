@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# Capturas de pantalla para mostrar el front (no van al repo)
+capturas
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
