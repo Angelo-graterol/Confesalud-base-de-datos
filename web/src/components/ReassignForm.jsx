@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { MAX_DAYS_AHEAD } from '../config'
-import { addDays, formatTime, freeSlotsFor, todayBogota } from '../lib/dates'
+import { MAX_DAYS_AHEAD, OPEN_WEEKDAYS } from '../config'
+import { addDays, formatTime, freeSlotsFor, todayBogota, weekday } from '../lib/dates'
 import { reassignAppointment, getTakenSlots } from '../services/appointments'
 import { fullName } from '../services/clients'
 
@@ -36,7 +36,8 @@ export default function ReassignForm({ appointment, doctors, staff, onStop, onDo
     }
   }, [doctorId, date])
 
-  const dateOk = date && date >= today && date <= maxDate
+  const isOpenDay = date && OPEN_WEEKDAYS.includes(weekday(date))
+  const dateOk = date && date >= today && date <= maxDate && isOpenDay
   const freeSlots = dateOk ? freeSlotsFor(date, takenSlots) : []
   const idPrefix = `reassign-${appointment.id}`
 
@@ -44,7 +45,11 @@ export default function ReassignForm({ appointment, doctors, staff, onStop, onDo
     event.preventDefault()
     setError('')
     if (!dateOk || !slot) {
-      setError('Elige una fecha futura y un horario libre.')
+      setError(
+        date && !isOpenDay
+          ? 'La IPS atiende de lunes a viernes. Elige otro día.'
+          : 'Elige una fecha futura y un horario libre.',
+      )
       return
     }
     setSubmitting(true)

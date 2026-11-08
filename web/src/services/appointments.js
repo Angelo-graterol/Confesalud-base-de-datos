@@ -95,7 +95,7 @@ export async function reassignAppointment({ appointment, doctorId, date, time, s
 
   if (error) {
     if (error.code === '23505') {
-      throw new Error('Ese horario acaba de ser tomado por otra persona. Elige otro.')
+      throw new Error(uniqueViolationMessage(error))
     }
     throw friendlyWriteError(error)
   }
@@ -103,6 +103,18 @@ export async function reassignAppointment({ appointment, doctorId, date, time, s
     throw new Error('No se pudo reasignar: la cita ya no está programada o no hay permiso para modificarla. Avísale a Juan José.')
   }
   return data[0]
+}
+
+// La tabla appointments tiene tres índices únicos; el nombre del índice dice cuál se violó.
+function uniqueViolationMessage(error) {
+  const text = `${error.message ?? ''} ${error.details ?? ''}`
+  if (text.includes('uq_appointments_client_slot')) {
+    return 'El paciente ya tiene una cita a esa misma hora. Elige otro horario.'
+  }
+  if (text.includes('uq_appointments_medical_order')) {
+    return 'Esa orden médica ya tiene una cita activa.'
+  }
+  return 'Ese horario acaba de ser tomado por otra persona. Elige otro.'
 }
 
 function friendlyWriteError(error) {
@@ -135,7 +147,7 @@ export async function createAppointment({ clientId, doctorId, date, time, orderI
 
   if (error) {
     if (error.code === '23505') {
-      throw new Error('Ese horario acaba de ser tomado por otra persona. Elige otro.')
+      throw new Error(uniqueViolationMessage(error))
     }
     if (error.code === '42501' || /row-level security/i.test(error.message)) {
       throw new Error('La base de datos no permite crear citas con esta clave (falta una política de acceso). Avísale a Juan José.')

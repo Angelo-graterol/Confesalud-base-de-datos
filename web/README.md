@@ -81,7 +81,7 @@ src/
 - **Funcionario de las citas web.** `appointments.stf_id` es obligatorio; las citas pedidas por el paciente se registran con `WEB_STAFF_ID` (`config.js`).
 - **Horas en Colombia.** Las fechas de la base son `timestamp` sin zona. El front las manda en hora de Bogotá, incluida `request_date`, para que la regla `assignment_date >= request_date` no falle por el reloj UTC del servidor.
 - **Duración.** Todas las citas ocupan un hueco de 20 minutos (la regla de 40 minutos para especializada no está en la base).
-- **Días de atención.** La base no restringe días; `OPEN_WEEKDAYS` en `config.js` los controla.
+- **Días de atención.** La base solo acepta lunes a viernes (`ck_appointments_weekday`); `OPEN_WEEKDAYS` en `config.js` lo refleja en el front.
 - **Especialidad de una cita.** La cita no la guarda; los filtros por especialidad usan las de su médico.
 - **Identidad visual.** Colores y logo de Confesalud IPS tomados de [confesalud.com](https://confesalud.com/): naranja del logo (`#FF6600`) para acentos y uno más oscuro (`#C2410C`) en botones para cumplir el contraste de lectura. El logo está en `public/logo-confesalud.png` y pertenece a la empresa; se usa solo en este proyecto académico.
 

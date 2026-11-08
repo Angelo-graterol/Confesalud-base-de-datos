@@ -7,8 +7,8 @@ export const DAY_START_MINUTES = 7 * 60
 export const LAST_SLOT_MINUTES = 15 * 60 + 40
 
 // Días de la semana en que se agenda (0 = domingo ... 6 = sábado).
-// La BD no restringe días; se dejan todos hasta confirmar el horario real de la IPS.
-export const OPEN_WEEKDAYS = [0, 1, 2, 3, 4, 5, 6]
+// La BD solo acepta lunes a viernes (ck_appointments_weekday, migración reglas_citas).
+export const OPEN_WEEKDAYS = [1, 2, 3, 4, 5]
 
 // Hasta cuántos días hacia adelante se puede agendar.
 export const MAX_DAYS_AHEAD = 60
